@@ -15,7 +15,7 @@ create table if not exists public.crm_respondents (
 );
 
 create unique index if not exists crm_respondents_phone_norm_idx
-  on public.crm_respondents (regexp_replace(phone, '\\D', '', 'g'));
+  on public.crm_respondents (regexp_replace(phone, '[^0-9]', '', 'g'));
 
 create table if not exists public.crm_history (
   id text primary key,
