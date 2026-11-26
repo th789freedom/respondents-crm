@@ -40,7 +40,7 @@ button,input,select,textarea{font:inherit}.hidden{display:none!important}.app{di
 <script>
 const SUPABASE_URL='https://shxafacqxrgoctmqpxea.supabase.co';
 const SUPABASE_KEY='sb_publishable_M_k1iIyahDIDQ6gkhyy5Rg_mauXQuAB';
-const ALLOWED_EMAILS=['tanya.gerzha01@mail.ru','gerzha.t.a@mail.ru'];
+const ALLOWED_EMAILS=['tanya.gerzha01@mail.ru','gerzha.t.a@mail.ru','lyuft@wantagroup.ru'];
 const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let db={people:[],history:[],requests:[],projects:[]},snapshot=null,currentUser=null;
 const $=id=>document.getElementById(id);
@@ -141,7 +141,7 @@ function rowsToRecords(rows,map,ctx){ctx=ctx||{};const headers=ctx.headers||[];c
  const c=splitContact(g('phone'));const extras=[];if(c.rest)extras.push('Контакты: '+c.rest);
  if(ctx.extras!==false)headers.forEach((h,ci)=>{if(usedCols.has(ci))return;const hn=normHead(h);if(!hn||/^колонка \d+$/.test(hn))return;let v=cellStr(row[ci]);if(!v||v==='-'||v==='—')return;if(typeof row[ci]==='number'&&row[ci]>36000&&row[ci]<55000&&!/возраст|номер|телефон|сумм|цена/i.test(h))v=dateFmt(parseDate(row[ci]));extras.push(cellStr(h)+': '+v);});
  const notes=[cellStr(g('notes'))].concat(extras).filter(Boolean).join('; ');
- const r={row:i,sheet:ctx.sheet||'',surname,name,phone:phoneFmt(c.phone),city:cellStr(g('city')),age:age??'',type:normType(g('type')),notes,date:parseDate(g('date')),topic:cellStr(g('topic'))||ctx.topic||'',project:cellStr(g('project'))||ctx.project||'',format:cellStr(g('format'))||ctx.format||''};
+ const r={row:i,sheet:ctx.sheet||'',surname,name,phone:phoneFmt(c.phone),city:cellStr(g('city')),age:age??'',type:normType(g('type')),notes,date:parseDate(g('date')),topic:cellStr(g('topic'))||(map.topic==null?ctx.topic||'':''),project:cellStr(g('project'))||(map.project==null?ctx.project||'':''),format:cellStr(g('format'))||(map.format==null?ctx.format||'':'')};
  const ph=phoneNorm(r.phone);if(!ph&&!surname&&!name)return null;if(!ph)r.error='нет телефона'+(c.rest?' («'+c.rest.slice(0,40)+'»)':'');else if(ph.length<10||ph.length>12)r.error='странный телефон «'+cellStr(g('phone')).slice(0,40)+'»';else if(!surname&&!name)r.error='нет имени';
  if(!r.error&&map.date!=null&&cellStr(g('date'))&&!r.date)r.warn='не распознана дата «'+cellStr(g('date'))+'»';
  return r;}).filter(Boolean);}
